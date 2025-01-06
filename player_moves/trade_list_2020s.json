@@ -1,0 +1,345 @@
+[
+    {
+        "date" : "2020-01-28",
+        "teamA" : "키움",
+        "playerA" : ["장영석"],
+        "teamB" : "KIA",
+        "playerB" : ["박준태", "2억원"]
+    },
+    
+    {
+        "date" : "2020-04-06",
+        "teamA" : "키움",
+        "playerA" : ["추재현"],
+        "teamB" : "롯데",
+        "playerB" : ["전병우", "차재용"]
+    },
+
+    {
+        "date" : "2020-05-29",
+        "teamA" : "두산", 
+        "playerA" : ["이홍련", "김경호"],
+        "teamB" : "SK",
+        "playerB" : ["이승진", "권기영"]
+    },
+
+    {
+        "date" : "2020-06-07",
+        "teamA" : "두산",
+        "playerA" : ["류지혁"],
+        "teamB" : "KIA",
+        "playerB" : ["홍건희"]
+    },
+
+    {
+        "date" : "2020-06-18",
+        "teamA" : "SK",
+        "playerA" : ["노수광"],
+        "teamB" : "한화",
+        "playerB" : ["이태양"]
+    },
+
+    {
+        "date" : "2020-08-12",
+        "teamA" : "NC",
+        "playerA" : ["장현식", "김태진"],
+        "teamB" : "KIA",
+        "playerB" : ["문경찬", "박정수"]
+    },
+
+    {
+        "date" : "2020-08-13",
+        "teamA" : "SK",
+        "playerA" : ["이홍구"],
+        "teamB" : "KT",
+        "playerB" : ["오태곤"]
+    },
+
+    {
+        "date" : "2020-11-27",
+        "teamA" : "LG",
+        "playerA" : ["윤형준"],
+        "teamB" : "NC",
+        "playerB" : ["이상호"]
+    },
+
+    {
+        "date" : "2020-12-04",
+        "teamA" : "롯데",
+        "playerA" : ["신본기", "박시영"],
+        "teamB" : "KT",
+        "playerB" : ["최건", "22-2-3 지명권"]
+    },
+
+    {
+        "date" : "2021-01-13",
+        "teamA" : "키움",
+        "playerA" : ["김상수"],
+        "teamB" : "SK",
+        "playerB" : ["3억원", "22-2-4 지명권"]
+    },
+
+    {
+        "date" : "2021-03-25",
+        "teamA" : "LG",
+        "playerA" : ["양석환", "남호"],
+        "teamB" : "두산",
+        "playerB" : ["함덕주", "채지선"]
+    },
+
+    {
+        "date" : "2021-05-21",
+        "teamA" : "NC",
+        "playerA" : ["김찬형"],
+        "teamB" : "SSG",
+        "playerB" : ["정진기", "정현"]
+    },
+
+    {
+        "date" : "2021-06-25",
+        "teamA" : "삼성",
+        "playerA" : ["이성곤"],
+        "teamB" : "한화",
+        "playerB" : ["오선진"]
+    },
+
+    {
+        "date" : "2021-07-03",
+        "teamA" : "KIA",
+        "playerA" : ["백용환"],
+        "teamB" : "한화",
+        "playerB" : ["강경학"]
+    },
+
+    {
+        "date" : "2021-07-22",
+        "teamA" : "NC",
+        "playerA" : ["강윤구"],
+        "teamB" : "롯데",
+        "playerB" : ["22-2-4 지명권"]
+    },
+
+    {
+        "date" : "2021-07-27",
+        "teamA" : "키움",
+        "playerA" : ["서건창"],
+        "teamB" : "LG",
+        "playerB" : ["정찬헌"]
+    },
+
+    {
+        "date" : "2021-07-31",
+        "teamA" : "KT",
+        "playerA" : ["이강준"],
+        "teamB" : "롯데",
+        "playerB" : ["김준태", "오윤석"]
+    },
+
+    {
+        "date" : "2021-12-13",
+        "teamA" : "NC",
+        "playerA" : ["김태군"],
+        "teamB" : "삼성",
+        "playerB" : ["심창민", "김응민"]
+    },
+
+    {
+        "date" : "2022-01-24",
+        "teamA" : "삼성",
+        "playerA" : ["이학주"],
+        "teamB" : "롯데",
+        "playerB" : ["최하늘", "22-3 지명권"]
+    },
+
+    {
+        "date" : "2022-04-23",
+        "teamA" : "한화",
+        "playerA" : ["김도현"],
+        "teamB" : "KIA",
+        "playerB" : ["이민우", "이진영"]
+    },
+
+    {
+        "date" : "2022-04-24",
+        "teamA" : "키움",
+        "playerA" : ["박동원"],
+        "teamB" : "KIA",
+        "playerB" : ["김태진", "10억원", "23-2 지명권"]
+    },
+
+    {
+        "date" : "2022-05-09",
+        "teamA" : "KIA",
+        "playerA" : ["김민식"],
+        "teamB" : "SSG",
+        "playerB" : ["김정빈", "임석진"]
+    },
+
+    {
+        "date" : "2022-05-21",
+        "teamA" : "LG",
+        "playerA" : ["장준원"],
+        "teamB" : "KT",
+        "playerB" : ["22-5 지명권"]
+    },
+
+    {
+        "date" : "2022-05-22",
+        "teamA" : "SSG",
+        "playerA" : ["이채호"],
+        "teamB" : "KT",
+        "playerB" : ["정성곤"]
+    },
+
+    {
+        "date" : "2022-06-21",
+        "teamA" : "KT",
+        "playerA" : ["류희운"],
+        "teamB" : "한화",
+        "playerB" : ["이시원"]
+    },
+
+    {
+        "date" : "2022-11-10",
+        "teamA" : "한화",
+        "playerA" : ["변우혁"],
+        "teamB" : "KIA",
+        "playerB" : ["한승혁", "장지수"]
+    },
+
+    {
+        "date" : "2022-11-11",
+        "teamA" : "키움",
+        "playerA" : ["주효상"],
+        "teamB" : "KIA",
+        "playerB" : ["24-2 지명권"]
+    },
+
+    {
+        "date" : "2023-02-14",
+        "teamA" : "NC",
+        "playerA" : ["이명기", "이재용"],
+        "teamB" : "한화",
+        "playerB" : ["조현진", "24-7 지명권"]
+    },
+
+    {
+        "date" : "2023-04-27",
+        "teamA" : "키움",
+        "playerA" : ["김태훈"],
+        "teamB" : "삼성",
+        "playerB" : ["이원석", "24-3 지명권"]
+    },
+
+    {
+        "date" : "2023-05-19",
+        "teamA" : "KT",
+        "playerA" : ["심재민"],
+        "teamB" : "롯데",
+        "playerB" : ["이호연"]
+    },
+
+    {
+        "date" : "2023-05-25",
+        "teamA" : "두산",
+        "playerA" : ["강진성"],
+        "teamB" : "SSG",
+        "playerB" : ["김정우"]
+    },
+
+    {
+        "date" : "2023-07-05",
+        "teamA" : "삼성",
+        "playerA" : ["김태군"],
+        "teamB" : "KIA",
+        "playerB" : ["류지혁"]
+    },
+
+    {
+        "date" : "2023-07-18",
+        "teamA" : "LG",
+        "playerA" : ["채지선"],
+        "teamB" : "NC",
+        "playerB" : ["최승민"]
+    },
+
+    {
+        "date" : "2023-07-29",
+        "teamA" : "키움",
+        "playerA" : ["최원태"],
+        "teamB" : "LG",
+        "playerB" : ["이주형", "김동규", "24-1 지명권"]
+    },
+
+    {
+        "date" : "2023-11-27",
+        "teamA" : "LG",
+        "playerA" : ["진해수"],
+        "teamB" : "롯데",
+        "playerB" : ["25-5 지명권"]
+    },
+
+    {
+        "date" : "2024-01-12",
+        "teamA" : "키움",
+        "playerA" : ["이지영"],
+        "teamB" : "SSG",
+        "playerB" : ["25-3 지명권", "2.5억원"]
+    },
+
+    {
+        "date" : "2024-01-26",
+        "teamA" : "LG",
+        "playerA" : ["김민성"],
+        "teamB" : "롯데",
+        "playerB" : ["김민수"]
+    },
+
+    {
+        "date" : "2024-03-30",
+        "teamA" : "LG",
+        "playerA" : ["손호영"],
+        "teamB" : "롯데",
+        "playerB" : ["우강훈"]
+    },
+
+    {
+        "date" : "2024-05-28",
+        "teamA" : "KT",
+        "playerA" : ["박병호"],
+        "teamB" : "삼성",
+        "playerB" : ["오재일"]
+    },
+
+    {
+        "date" : "2024-05-30",
+        "teamA" : "키움",
+        "playerA" : ["김휘집"],
+        "teamB" : "NC",
+        "playerB" : ["25-1 지명권", "25-3 지명권"]
+    },
+
+    {
+        "date" : "2024-10-31",
+        "teamA" : "SSG",
+        "playerA" : ["오원석"],
+        "teamB" : "KT",
+        "playerB" : ["김민"]
+    },
+
+    {
+        "date" : "2024-11-22",
+        "teamA" : "두산",
+        "playerA" : ["정철원", "전민재"],
+        "teamB" : "롯데",
+        "playerB" : ["김민석", "추재현", "최우인"]
+    },
+
+    {
+        "date" : "2024-12-19",
+        "teamA" : "키움",
+        "playerA" : ["조상우"],
+        "teamB" : "KIA",
+        "playerB" : ["26-1 지명권", "26-4 지명권", "10억원"]
+    }
+]
