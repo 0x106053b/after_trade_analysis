@@ -105,7 +105,7 @@
                     {"type" : "player", "name" : "남호", "statizId" : "14139"}],
         "teamB" : "두산",
         "playerB" : [{"type" : "player", "name" : "함덕주", "statizId" : "11094"}, 
-                    {"type" : "player", "name" : "채지선", "statizId" : "11387"}]
+                    {"type" : "player", "name" : "채원후", "statizId" : "11387"}]
     },
 
     {
@@ -335,7 +335,7 @@
         "teamA" : "LG",
         "playerA" : [{"type" : "player", "name" : "진해수", "statizId" : "10075"}],
         "teamB" : "롯데",
-        "playerB" : [{"type" : "draft", "round" : "25-5 지명권"}]
+        "playerB" : [{"type" : "draft", "round" : "25-5"}]
     },
 
     {
