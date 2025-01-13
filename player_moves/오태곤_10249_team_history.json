@@ -1,0 +1,22 @@
+﻿{
+  "name": "오태곤",
+  "statizId": "10249",
+  "team_history": [
+    {
+      "start_date": "2010-01-01",
+      "team": "롯데"
+    },
+    {
+      "start_date": "2017-04-19",
+      "team": "KT"
+    },
+    {
+      "start_date": "2020-08-13",
+      "team": "SSG"
+    },
+    {
+      "start_date": "2021-03-06",
+      "team": "SSG"
+    }
+  ]
+}

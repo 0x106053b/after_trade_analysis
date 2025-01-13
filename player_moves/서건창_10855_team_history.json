@@ -1,0 +1,22 @@
+﻿{
+  "name": "서건창",
+  "statizId": "10855",
+  "team_history": [
+    {
+      "start_date": "2008-01-01",
+      "team": "LG"
+    },
+    {
+      "start_date": "2012-01-01",
+      "team": "키움"
+    },
+    {
+      "start_date": "2021-07-27",
+      "team": "LG"
+    },
+    {
+      "start_date": "2024-01-15",
+      "team": "KIA"
+    }
+  ]
+}

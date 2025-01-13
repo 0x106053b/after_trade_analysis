@@ -1,0 +1,22 @@
+﻿{
+  "name": "진해수",
+  "statizId": "10075",
+  "team_history": [
+    {
+      "start_date": "2005-01-01",
+      "team": "KIA"
+    },
+    {
+      "start_date": "2013-05-06",
+      "team": "SSG"
+    },
+    {
+      "start_date": "2015-07-24",
+      "team": "LG"
+    },
+    {
+      "start_date": "2024-01-01",
+      "team": "롯데"
+    }
+  ]
+}

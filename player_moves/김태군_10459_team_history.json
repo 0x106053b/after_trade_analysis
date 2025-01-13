@@ -1,0 +1,22 @@
+﻿{
+  "name": "김태군",
+  "statizId": "10459",
+  "team_history": [
+    {
+      "start_date": "2008-01-01",
+      "team": "LG"
+    },
+    {
+      "start_date": "2013-01-01",
+      "team": "NC"
+    },
+    {
+      "start_date": "2022-02-01",
+      "team": "삼성"
+    },
+    {
+      "start_date": "2023-07-05",
+      "team": "KIA"
+    }
+  ]
+}

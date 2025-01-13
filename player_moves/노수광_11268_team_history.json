@@ -1,0 +1,22 @@
+﻿{
+  "name": "노수광",
+  "statizId": "11268",
+  "team_history": [
+    {
+      "start_date": "2013-01-01",
+      "team": "한화"
+    },
+    {
+      "start_date": "2015-05-06",
+      "team": "KIA"
+    },
+    {
+      "start_date": "2017-04-07",
+      "team": "SSG"
+    },
+    {
+      "start_date": "2020-06-18",
+      "team": "한화"
+    }
+  ]
+}

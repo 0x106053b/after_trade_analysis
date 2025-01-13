@@ -1,0 +1,14 @@
+﻿{
+  "name": "신본기",
+  "statizId": "10840",
+  "team_history": [
+    {
+      "start_date": "2012-01-01",
+      "team": "롯데"
+    },
+    {
+      "start_date": "2021-01-01",
+      "team": "KT"
+    }
+  ]
+}

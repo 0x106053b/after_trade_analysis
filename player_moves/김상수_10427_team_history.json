@@ -1,0 +1,22 @@
+﻿{
+  "name": "김상수",
+  "statizId": "10427",
+  "team_history": [
+    {
+      "start_date": "2006-01-01",
+      "team": "삼성"
+    },
+    {
+      "start_date": "2010-01-01",
+      "team": "키움"
+    },
+    {
+      "start_date": "2022-02-01",
+      "team": "SSG"
+    },
+    {
+      "start_date": "2023-01-01",
+      "team": "롯데"
+    }
+  ]
+}

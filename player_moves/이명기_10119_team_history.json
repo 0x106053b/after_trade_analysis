@@ -1,0 +1,22 @@
+﻿{
+  "name": "이명기",
+  "statizId": "10119",
+  "team_history": [
+    {
+      "start_date": "2006-01-01",
+      "team": "SSG"
+    },
+    {
+      "start_date": "2017-04-07",
+      "team": "KIA"
+    },
+    {
+      "start_date": "2019-07-06",
+      "team": "NC"
+    },
+    {
+      "start_date": "2023-02-14",
+      "team": "한화"
+    }
+  ]
+}

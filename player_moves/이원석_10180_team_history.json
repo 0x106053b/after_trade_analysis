@@ -1,0 +1,22 @@
+﻿{
+  "name": "이원석",
+  "statizId": "10180",
+  "team_history": [
+    {
+      "start_date": "2005-01-01",
+      "team": "롯데"
+    },
+    {
+      "start_date": "2009-01-01",
+      "team": "두산"
+    },
+    {
+      "start_date": "2017-01-01",
+      "team": "삼성"
+    },
+    {
+      "start_date": "2023-04-27",
+      "team": "키움"
+    }
+  ]
+}
