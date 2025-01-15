@@ -24,7 +24,7 @@
         "teamA" : "두산", 
         "playerA" : [{"type" : "player", "name" : "이흥련", "statizId" : "11108"}, 
                     {"type" : "player", "name" : "김경호", "statizId" : "11207"}],
-        "teamB" : "SK",
+        "teamB" : "SSG",
         "playerB" : [{"type" : "player", "name" : "이승진", "statizId" : "12678"},
                     {"type" : "player", "name" : "권기영", "statizId" : "12921"}]
     },
@@ -41,7 +41,7 @@
     {
         "id" : 5,
         "date" : "2020-06-18",
-        "teamA" : "SK",
+        "teamA" : "SSG",
         "playerA" : [{"type" : "player", "name" : "노수광", "statizId" : "11268"}],
         "teamB" : "한화",
         "playerB" : [{"type" : "player", "name" : "이태양", "statizId" : "10609"}]
@@ -61,7 +61,7 @@
     {
         "id" : 7,
         "date" : "2020-08-13",
-        "teamA" : "SK",
+        "teamA" : "SSG",
         "playerA" : [{"type" : "player", "name" : "이홍구", "statizId" : "11071"}],
         "teamB" : "KT",
         "playerB" : [{"type" : "player", "name" : "오태곤", "statizId" : "10249"}]
@@ -92,7 +92,7 @@
         "date" : "2021-01-13",
         "teamA" : "키움",
         "playerA" : [{"type" : "player", "name" : "김상수", "statizId" : "10427"}],
-        "teamB" : "SK",
+        "teamB" : "SSG",
         "playerB" : [{"type" : "money", "amount" : "3억원"},
                     {"type" : "draft", "round" : "22-2-4"}]
     },
