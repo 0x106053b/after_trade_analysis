@@ -5,6 +5,7 @@ import json
 import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, dcc, html, Input, Output, callback
+from dash import Dash, dcc, html, Input, Output, callback
 import plotly.express as px
 from assets.dataframe import df1, df2
 warnings.simplefilter(action='ignore', category=FutureWarning)
