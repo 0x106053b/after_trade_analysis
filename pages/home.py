@@ -91,35 +91,7 @@ section1 = html.Div(
             ],
             style={"margin-bottom" : "80px"}
         )
-
-layout = html.Div(
-    [
-        dbc.Alert(
-            [
-                "All data on this dashboard is collected before 2025-01-10. All rights reserved to ",
-                html.A("Sporki(Statiz).", href="https://statiz.sporki.com/", className="alert-link")
-            ],
-            id="alert-fade",
-            className="lead",
-            dismissable=True,
-            fade=True,
-            is_open=True,
-            color="primary"
-        ),
-        html.Small('''
-            Have you ever experienced letting the rookie player leave for another team?
-            How about a player you loved enough to place his name on the back of your favorite uniform?
-            Let's check the trade-related records made on 2020s KBO league to see if the traded player is doing well on another team as well!
-        ''', className="lead", style={"color" : "gray"}),
-        html.Button('\U0001f62d', style={"border" : "none", "background-color" : "white"}),
-        html.Hr(),
-        html.H3("2020s Overall Trades", className="display-6"),
-        html.Small("You can view annual statistics by hover the mouse on year.", className="lead", style={"color" : "gray"}),
-        section1,
-
-        html.H3("2020s Silk Roads among 10 Teams", className="display-6"),
-        html.Small("You can click on the each cells to see the specific trade history.", className="lead", style={"color" : "gray"}),
-        html.Div(
+section2 = html.Div(
             [
                 html.Div(
                     [
@@ -151,12 +123,11 @@ layout = html.Div(
                                         "border-radius" : "10px",
                                         "border" : "1px solid lightgrey",
                                         "background-color" : "#ffffff",
-                                        "margin" : "15px",
+                                        "margin" : "20px",
                                         "padding" : "5px",
                                         "position" : "relative",
                                         "box-shadow" : "3px 3px 3px lightgrey",
-                                        "height" : 460,
-                                        "overflow-y" : "scroll"
+                                        "height" : 460
                                     }
                         )
                     ], style={"display" : "inline-block", "width" : "39%", "height" : "100%", "overflow" : "hidden"}
@@ -164,6 +135,36 @@ layout = html.Div(
 
             ]
         )
+
+
+layout = html.Div(
+    [
+        dbc.Alert(
+            [
+                "All data on this dashboard is collected before 2025-01-10. All rights reserved to ",
+                html.A("Sporki(Statiz).", href="https://statiz.sporki.com/", className="alert-link")
+            ],
+            id="alert-fade",
+            className="lead",
+            dismissable=True,
+            fade=True,
+            is_open=True,
+            color="primary"
+        ),
+        html.Small('''
+            Have you ever experienced letting the rookie player leave for another team?
+            How about a player you loved enough to place his name on the back of your favorite uniform?
+            Let's check the trade-related records made on 2020s KBO league to see if the traded player is doing well on another team as well!
+        ''', className="lead", style={"color" : "gray"}),
+        html.Button('\U0001f62d', style={"border" : "none", "background-color" : "white"}),
+        html.Hr(),
+        html.H3("2020s Overall Trades", className="display-6"),
+        html.Small("You can view annual statistics by hover the mouse on year.", className="lead", style={"color" : "gray"}),
+        section1,
+
+        html.H3("2020s Silk Roads among 10 Teams", className="display-6"),
+        html.Small("You can click on the each cells to see the specific trade history.", className="lead", style={"color" : "gray"}),
+        section2,
     ]
 )
 
@@ -203,7 +204,7 @@ def update_annual_trade_counts_byposition(hoverData):
     df1_2.loc[df1_2["주포지션_내외야"] == "None", "주포지션_내외야"] = "Pitcher"
 
     fig1_2 = px.sunburst(df1_2, path=["주포지션_내외야", "주포지션"], values="statizId", color="주포지션_내외야", names="주포지션_내외야")
-    fig1_2.update_layout(height=500, margin=dict(l=15, r=15, t=50, b=50))
+    fig1_2.update_layout(height=530, margin=dict(l=15, r=15, t=50, b=50))
     fig1_2.update_traces(textfont_size=15)
 
     return fig1_2
