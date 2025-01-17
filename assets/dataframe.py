@@ -22,6 +22,28 @@ def df2():
         for x in trade["playerB"]:
             if x["type"] == "player":
                 trade_list.append([trade["date"], x["name"], x["statizId"], trade["teamB"], trade["teamA"]])
-    df2 = pd.DataFrame(trade_list, columns=["date", "name", "statizId", "원소속팀", "이적팀"])
+    df2 = pd.DataFrame(trade_list, columns=["date", "name", "statizId", "from", "to"])
     df2["date"] = pd.to_datetime(df2["date"])
     return df2
+
+def df3():
+    trade_cases = []
+    for idx, trade in enumerate(trade_info):
+        for a in trade["playerA"]:
+            if a["type"] == "player":
+                trade_cases.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["type"], a["name"]])
+            elif a["type"] == "draft":
+                trade_cases.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["type"], a["round"]])
+            elif a["type"] == "money":
+                trade_cases.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["type"], a["amount"]])
+        
+        for b in trade["playerB"]:
+            if b["type"] == "player":
+                trade_cases.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["type"], b["name"]])
+            elif b["type"] == "draft":
+                trade_cases.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["type"], b["round"]])
+            elif b["type"] == "money":
+                trade_cases.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["type"], b["amount"]])
+
+    df3 = pd.DataFrame(trade_cases, columns=["id", "date", "from", "to", "trade type", "resource"])
+    return df3
