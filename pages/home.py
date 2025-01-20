@@ -10,16 +10,6 @@ from assets.dataframe import df1, df2, df3
 warnings.simplefilter(action='ignore', category=FutureWarning)
 pd.set_option('mode.chained_assignment',  None)
 
-BOX_STYLE = {
-    "border-radius" : "10px",
-    "border" : "1px solid lightgrey",
-    "background-color" : "#ffffff",
-    "margin" : "15px",
-    "padding" : "5px",
-    "position" : "relative",
-    "box-shadow" : "3px 3px 3px lightgrey"
-}
-
 dash.register_page(__name__, path='/')
 
 player_info = pd.read_csv("player_stats/player_basic_info.csv", index_col = 0)
@@ -62,14 +52,14 @@ section1 = html.Div(
                                 hoverData={"points" : [{"customdata" : 2020}]},
                                 style={"height" : 250})
                             ],
-                            style=BOX_STYLE
+                            className="box"
                         ),
                         html.Div(
                             [
                                 dcc.Graph(id="annual-trade-counts-byteam",
                                 style={"height" : 250}),
                             ],
-                            style=BOX_STYLE
+                            className="box"
                         )
                     ],
                     style={"display" : "inline-block", "width" : "49%"}
@@ -83,7 +73,7 @@ section1 = html.Div(
                                 dcc.Graph(id="annual-trade-counts-byposition",
                                 style={"height" : 530})
                             ],
-                            style=BOX_STYLE
+                            className="box"
                         )
                     ],
                     style={"display" : "inline-block", "width" : "49%"}
@@ -135,7 +125,6 @@ section2 = html.Div(
 
             ]
         )
-
 
 layout = html.Div(
     [
