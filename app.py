@@ -9,13 +9,13 @@ SIDEBAR_STYLE = {
     "top": 0,
     "left": 0,
     "bottom": 0,
-    "width": "16rem",
+    "width": "18rem",
     "padding": "2rem 1rem",
     "background-color": "#F5F5F5",
 }
 
 CONTENT_STYLE = {
-    "margin-left": "18rem",
+    "margin-left": "20rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
     "width" : "100%"
