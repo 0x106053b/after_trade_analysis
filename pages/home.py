@@ -23,10 +23,12 @@ df1 = df1()
 # df1_0 : 연도별 트레이드 횟수 데이터프레임
 df1_0 = df1.pivot_table(df1, index=df1["date"].apply(lambda x : x.year), aggfunc="count")["id"]
 
-fig1_0 = px.line(df1_0, x=df1_0.index, y="id", labels=dict(date="Year", id="Count"), markers=True)
+fig1_0 = px.line(df1_0, x=df1_0.index, y="id", 
+        labels=dict(date="Year", id="Count"), markers=True, title="Annual Frequency of Trades")
 fig1_0.update_traces(customdata=df1_0.index, marker_size=13)
 fig1_0.update_yaxes(range=[4, 9.5])
-fig1_0.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+fig1_0.update_layout(margin=dict(l=20, r=20, t=30, b=10),
+    title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")
 
 df2 = df2()
 df2 = df2.merge(player_info, on="statizId", how="left")[["date", "name", "statizId", "from", "to", "주포지션"]]
@@ -34,8 +36,10 @@ df2 = df2.merge(player_info, on="statizId", how="left")[["date", "name", "statiz
 df3 = df3()
 df3_1 = pd.pivot_table(df3[["from", "to", "id"]], values="id", index="from", columns="to", aggfunc="count")
 df3_1 = df3_1.fillna(0)
-fig3 = px.imshow(df3_1, text_auto=True, aspect="auto", color_continuous_scale=[[0, 'white'], [1, '#636EFA']])
-fig3.update_layout(margin=dict(l=20, r=20, t=10, b=10))
+fig3 = px.imshow(df3_1, text_auto=True, aspect="auto", color_continuous_scale=[[0, 'white'], [1, '#636EFA']],
+    title="Number of Players, Drafts, Cash Trades among Teams")
+fig3.update_layout(margin=dict(l=20, r=20, t=50, b=10),
+    title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")
 
 df4 = df3.loc[:, ["date", "from", "to", "trade type", "resource"]]
 
@@ -50,14 +54,14 @@ section1 = html.Div(
                                 dcc.Graph(id="annual-trade-counts",
                                 figure=fig1_0,
                                 hoverData={"points" : [{"customdata" : 2020}]},
-                                style={"height" : 250})
+                                style={"height" : 265})
                             ],
                             className="box"
                         ),
                         html.Div(
                             [
                                 dcc.Graph(id="annual-trade-counts-byteam",
-                                style={"height" : 250}),
+                                style={"height" : 265}),
                             ],
                             className="box"
                         )
@@ -71,15 +75,15 @@ section1 = html.Div(
                         html.Div(
                             [
                                 dcc.Graph(id="annual-trade-counts-byposition",
-                                style={"height" : 530})
+                                style={"height" : 570})
                             ],
                             className="box"
                         )
                     ],
-                    style={"display" : "inline-block", "width" : "49%"}
+                    style={"display" : "inline-block", "width" : "49%", "height" : "100%"}
                 ),
             ],
-            style={"margin-bottom" : "80px"}
+            style={"margin-bottom" : "80px", "height" : 628.2}
         )
 section2 = html.Div(
             [
@@ -89,17 +93,9 @@ section2 = html.Div(
                             [
                                 dcc.Graph(id="teamly-trade-counts",
                                             figure=fig3,
-                                            hoverData={"points" : [{"x" : "KIA", "y" : "키움"}]})
-                            ], style={
-                                        "border-radius" : "10px",
-                                        "border" : "1px solid lightgrey",
-                                        "background-color" : "#ffffff",
-                                        "margin" : "15px",
-                                        "padding" : "10px",
-                                        "position" : "relative",
-                                        "box-shadow" : "3px 3px 3px lightgrey",
-                                        "height" : 460
-                                    }
+                                            hoverData={"points" : [{"x" : "KIA", "y" : "키움"}]},
+                                            style={"height" : 400})
+                            ], className="box"
                         )
                     ], style={"display" : "inline-block", "width" : "60%"}
                 ),
@@ -108,22 +104,11 @@ section2 = html.Div(
                         html.Div(
                             [
                                 dash_table.DataTable()
-                            ], id="trade-resource-table",
-                                style={
-                                        "border-radius" : "10px",
-                                        "border" : "1px solid lightgrey",
-                                        "background-color" : "#ffffff",
-                                        "margin" : "20px",
-                                        "padding" : "5px",
-                                        "position" : "relative",
-                                        "box-shadow" : "3px 3px 3px lightgrey",
-                                        "height" : 460
-                                    }
+                            ], id="trade-resource-table", style={"margin" : "0px 10px"}
                         )
-                    ], style={"display" : "inline-block", "width" : "39%", "height" : "100%", "overflow" : "hidden"}
+                    ], className="box", style={"display" : "inline-block", "width" : "39%", "overflow" : "hidden"}
                 )
-
-            ]
+            ], style={"display" : "flex", "align-items": "stretch"}
         )
 
 layout = html.Div(
@@ -167,10 +152,12 @@ def update_annual_trade_counts_byteam(hoverData):
    capital_team = ["LG", "키움", "두산", "KT", "SSG"]
    colors = ["수도권팀" if x in capital_team else "비수도권팀" for x in df1_1["teamA"]]
    fig1_1 = px.histogram(df1_1["teamA"], color=colors, text_auto=True,
-                        color_discrete_map={"수도권팀" : "#AB63FA", "비수도권팀" : "#B6E880"},labels=dict(value="Team", id="Count"))
+                        color_discrete_map={"수도권팀" : "#AB63FA", "비수도권팀" : "#B6E880"}, 
+                        labels=dict(value="Team", id="Count"), title="Teamly Frequency of Trades")
    fig1_1.update_traces(textfont_size=15, textfont_color="white", textangle=0, textposition="inside", cliponaxis=False)
    fig1_1.update_yaxes(dtick=1)
-   fig1_1.update_layout(height=250, showlegend=False, margin=dict(l=20, r=20, t=20, b=20))
+   fig1_1.update_layout(height=240, showlegend=False, margin=dict(l=20, r=20, t=30, b=10),
+    title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")
    return fig1_1
 
 @callback(
@@ -192,8 +179,11 @@ def update_annual_trade_counts_byposition(hoverData):
     df1_2.loc[df1_2["주포지션_내외야"] == "None", "주포지션"] = None
     df1_2.loc[df1_2["주포지션_내외야"] == "None", "주포지션_내외야"] = "Pitcher"
 
-    fig1_2 = px.sunburst(df1_2, path=["주포지션_내외야", "주포지션"], values="statizId", color="주포지션_내외야", names="주포지션_내외야")
-    fig1_2.update_layout(height=530, margin=dict(l=15, r=15, t=50, b=50))
+    fig1_2 = px.sunburst(df1_2, path=["주포지션_내외야", "주포지션"], 
+                        values="statizId", color="주포지션_내외야", names="주포지션_내외야",
+                        title="Proportion of Traded Players' Positions")
+    fig1_2.update_layout(margin=dict(l=20, r=20, t=30, b=20),
+    title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")
     fig1_2.update_traces(textfont_size=15)
 
     return fig1_2

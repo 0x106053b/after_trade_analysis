@@ -18,7 +18,7 @@
     border : 1px solid lightgrey;
     background-color : #ffffff;
     margin : 15px;
-    padding : 5px;
+    padding : 20px 5px 5px 5px;
     position : relative;
     box-shadow : 3px 3px 3px lightgrey;
 }
@@ -42,7 +42,7 @@
 }
 
 .trade-card {
-    width : 240px;
+    width : 245px;
     height : 168px;
     box-shadow : 3px 3px 3px lightgrey;
 }

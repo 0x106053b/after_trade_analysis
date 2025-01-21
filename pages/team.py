@@ -51,9 +51,11 @@ def update_dashboard(*team):
     else:
         teamName = triggered_id[:triggered_id.find('-')]
         df = df4(teamName)
-        fig = px.icicle(df, path=["count", "InOut", "주포지션_rough", "주포지션"])
+        fig = px.icicle(df, path=["count", "InOut", "주포지션_rough", "주포지션"], 
+            title=f"Proportion of Player Positions who trade out or trade in")
         fig.update_traces(root_color="lightgrey")
-        fig.update_layout(margin=dict(l=25, r=25, t=25, b=25))
+        fig.update_layout(margin=dict(l=20, r=20, t=40, b=10),
+                        title_x = 0.5, title_y = 0.98, title_font_size = 18, title_font_family = "Segoe UI")
         figure_data = fig["data"][0]
         mask = np.char.find(figure_data.ids.astype(str), "null") == -1
         figure_data.ids = figure_data.ids[mask]
@@ -138,8 +140,8 @@ def update_dashboard(*team):
                 html.H3("2020s In/Out", className="display-6"),
                 html.Small("Here's a look at the types of trades that came in and out for 2020s.", className="lead", style={"color" : "gray"}),
                 html.Div([
-                    html.Div(dcc.Graph(figure=fig, style={"height" : "100%"}), className="box", style={"width" : "50%"}),
+                    html.Div(dcc.Graph(figure=fig, style={"height" : "100%"}), className="box", style={"width" : "55%"}),
                     html.Div([card_in_draft, card_out_draft, card_in_money, card_out_money], id="grid-wrapper2")
-                ], style={"display" : "flex", "justify-content" : "space-between", "height" : "400px"})
+                ], style={"display" : "flex", "justify-content" : "space-between"})
             ]
         )
