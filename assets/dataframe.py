@@ -93,3 +93,101 @@ def df6(teamName):
     df6 = df6.loc[df6["trade type"] == "money", ["resource", "InOut" ]]
     df6["resource"] = df6["resource"].apply(lambda x : float(x[:-2]))
     return df6
+
+def df7(teamName):
+    teampName = "키움"
+
+    df7_player = []
+    df7_draft = []
+    for idx, trade in enumerate(trade_info):
+        for a in trade["playerA"]:
+            if a["type"] == "player":
+                df7_player.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["statizId"], a["type"], a["name"]])
+            elif a["type"] == "draft":
+                df7_draft.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["type"], a["round"]])
+        for b in trade["playerB"]:
+            if b["type"] == "player":
+                df7_player.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["statizId"], b["type"], b["name"]])
+            elif b["type"] == "draft":
+                df7_draft.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["type"], b["round"]])
+
+    df7_player = pd.DataFrame(df7_player, columns=["id", "date", "from", "to", "statizId", "trade type", "resource"])
+    df7_draft = pd.DataFrame(df7_draft, columns=["id", "date", "from", "to", "trade type", "resource"])
+    df7_draft = df7_draft.merge(draft_tickets, left_on=["id","to"], 
+        right_on=["id", "팀"])[["id", "date", "from", "to", "statizId", "trade type", "선수"]]
+    df7_draft.columns = ["id", "date", "from", "to", "statizId", "trade type", "resource"]
+    df7_temp = pd.concat([df7_player, df7_draft])
+    df7_temp = df7_temp.reset_index(drop=True)
+    df7_temp = \
+        df7_temp.merge(player_info, on="statizId")[["id", "date", "from", "to", "statizId", "trade type", "resource", "주포지션"]]
+
+    df7_temp.loc[df7_temp["from"] == teamName, "InOut"] = "OUT"
+    df7_temp.loc[df7_temp["to"] == teamName, "InOut"] = "IN"
+    df7_temp = df7_temp.dropna(subset=["InOut"]).reset_index(drop=True)
+
+    batter = ["1B", "2B", "3B", "SS", "LF", "CF", "RF", "C"]
+
+    for idx in range(df7_temp.shape[0]):
+        resource, statizId, position, tradeid, date = \
+                tuple(df7_temp.loc[idx, ["resource", "statizId", "주포지션", "id", "date"]])
+        if position in batter:
+            regular_url = f"player_stats/annual_stats/regular/batting_stats/{resource}_{statizId}_annualStats.csv"
+        elif position not in batter:
+            regular_url = f"player_stats/annual_stats/regular/pitching_stats/{resource}_{statizId}_annualStats.csv"
+        annual_df = pd.read_csv(regular_url, index_col=0)
+        change_points = list(np.where(annual_df["Team"] != annual_df["Team"].shift())[0]) + list((annual_df.shape[0],))
+        trade_year = pd.to_datetime(date).year
+        try :
+            trade_year_index = np.where(annual_df["Year"] >= trade_year)[0][0]
+            temp = pd.Series(change_points)[np.where(trade_year_index <= change_points)[0]].index[0]
+            before_start = change_points[temp-1]
+            before_end = change_points[temp]-1
+            after_start = change_points[temp]-1
+            after_end = change_points[temp+1]
+            before_regular_war_sum = round(annual_df.loc[before_start:before_end, "WAR"].sum(), 3)
+            after_regular_war_sum = round(annual_df.loc[after_start:after_end, "WAR"].sum(), 3)
+            df7_temp.loc[idx, "before_regular_war_sum"] = before_regular_war_sum
+            df7_temp.loc[idx, "after_regular_war_sum"] = after_regular_war_sum
+        except:
+            continue
+
+        if position in batter:
+            before_regular_owar_sum = round(annual_df.loc[before_start:before_end, "oWAR"].sum(), 3)
+            after_regular_owar_sum = round(annual_df.loc[after_start:after_end, "oWAR"].sum(), 3)
+            before_regular_dwar_sum = round(annual_df.loc[before_start:before_end, "dWAR"].sum(), 3)
+            after_regular_dwar_sum = round(annual_df.loc[after_start:after_end, "dWAR"].sum(), 3)
+            df7_temp.loc[idx, "before_regular_owar_sum"] = before_regular_owar_sum
+            df7_temp.loc[idx, "after_regular_owar_sum"] = after_regular_owar_sum
+            df7_temp.loc[idx, "before_regular_dwar_sum"] = before_regular_dwar_sum
+            df7_temp.loc[idx, "after_regular_dwar_sum"] = after_regular_dwar_sum
+        
+        else:
+            before_regular_g = annual_df.loc[before_start:before_end, "G"]
+            after_regular_g = annual_df.loc[after_start:after_end, "G"]
+            if before_regular_g.sum()==0 or after_regular_g.sum() == 0:
+                continue
+            before_regular_win_sum = annual_df.loc[before_start:before_end, "W"].sum()
+            after_regular_win_sum = annual_df.loc[after_start:after_end, "W"].sum()
+            before_regular_lose_sum = annual_df.loc[before_start:before_end, "L"].sum()
+            after_regular_lose_sum = annual_df.loc[after_start:after_end, "L"].sum()
+            before_regular_hold_sum = annual_df.loc[before_start:before_end, "HD"].sum()
+            after_regular_hold_sum = annual_df.loc[after_start:after_end, "HD"].sum()
+            before_regular_save_sum = annual_df.loc[before_start:before_end, "S"].sum()
+            after_regular_save_sum = annual_df.loc[after_start:after_end, "S"].sum()
+            before_regular_era_avg = round(annual_df.loc[before_start:before_end, "ERA"].dot(before_regular_g) / before_regular_g.sum(), 3)
+            after_regular_era_avg = round(annual_df.loc[after_start:after_end, "ERA"].dot(after_regular_g) / after_regular_g.sum(), 3)
+            before_regular_whip_avg = round(annual_df.loc[before_start:before_end, "WHIP"].dot(before_regular_g) / before_regular_g.sum(), 3)
+            after_regular_whip_avg = round(annual_df.loc[after_start:after_end, "WHIP"].dot(after_regular_g) / after_regular_g.sum(), 3)
+            df7_temp.loc[idx, "before_regular_win_sum"] = before_regular_win_sum
+            df7_temp.loc[idx, "after_regular_win_sum"] = after_regular_win_sum
+            df7_temp.loc[idx, "before_regular_lose_sum"] = before_regular_lose_sum
+            df7_temp.loc[idx, "after_regular_lose_sum"] = after_regular_lose_sum
+            df7_temp.loc[idx, "before_regular_hold_sum"] = before_regular_hold_sum
+            df7_temp.loc[idx, "after_regular_hold_sum"] = after_regular_hold_sum
+            df7_temp.loc[idx, "before_regular_save_sum"] = before_regular_save_sum
+            df7_temp.loc[idx, "after_regular_save_sum"] = after_regular_save_sum
+            df7_temp.loc[idx, "before_regular_era_avg"] = before_regular_era_avg
+            df7_temp.loc[idx, "after_regular_era_avg"] = after_regular_era_avg
+            df7_temp.loc[idx, "before_regular_whip_avg"] = before_regular_whip_avg
+            df7_temp.loc[idx, "after_regular_whip_avg"] = after_regular_whip_avg
+    return df7_temp
