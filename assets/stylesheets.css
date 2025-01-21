@@ -33,14 +33,18 @@
 
 #grid-wrapper2 {
     display : grid;
+    align-items: stretch;
+    justify-items: stretch;
+    align-content: space-between;
     grid-template-columns : repeat(2, 1fr);
     margin : 15px;
-    padding : 5px;
-    grid-gap : 15px 15px;
+    grid-gap : 15px 30px;
 }
 
 .trade-card {
-    width : 350px;
+    width : 240px;
+    height : 168px;
+    box-shadow : 3px 3px 3px lightgrey;
 }
 
 .button_unclicked {

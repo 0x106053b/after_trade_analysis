@@ -75,7 +75,6 @@ def df4(teamName):
     return df4
 
 def df5(teamName, tradeType):    
-    global df3
     df3_temp = df3()
     df5 = df3_temp.merge(draft_tickets, left_on=["id","to"], right_on=["id", "팀"])
     df5 = df5.loc[df5["trade type"] == tradeType]
@@ -83,3 +82,12 @@ def df5(teamName, tradeType):
     df5.loc[df5["to"] == teamName, "InOut"] = "IN"
     df5 = df5.dropna()
     return df5
+
+def df6(teamName):
+    df3_temp = df3()
+    df3_temp.loc[df3_temp["from"] == teamName, "InOut"] = "OUT"
+    df3_temp.loc[df3_temp["to"] == teamName, "InOut"] = "IN"
+    df6 = df3_temp.dropna()
+    df6 = df6.loc[df6["trade type"] == "money", ["resource", "InOut" ]]
+    df6["resource"] = df6["resource"].apply(lambda x : float(x[:-2]))
+    return df6

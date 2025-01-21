@@ -65,16 +65,20 @@ def update_dashboard(*team):
         df5_draft_in = df5_draft.loc[df5_draft["InOut"] == "IN", ["팀", "선수"]]
         df5_draft_out = df5_draft.loc[df5_draft["InOut"] == "OUT", ["팀", "선수"]]
 
+        df6_money = df6(teamName)
+        df6_money_in = df6_money.loc[df6_money["InOut"] == "IN", "resource"]
+        df6_money_out = df6_money.loc[df6_money["InOut"] == "OUT", "resource"]
+
         card_in_draft = dbc.Card(
             [
-                dbc.CardHeader("[IN] Draft Tickets", className="lead"),
+                dbc.CardHeader("[IN] Draft Picks", className="lead"),
                 dbc.CardBody(
                     [
-                        html.H4(f'{df5_draft_in.shape[0]} Tickets', className="display-6"),
+                        html.H4(f'{df5_draft_in.shape[0]} Picks', className="display-6"),
                         html.P(
                             [
                                 ", ".join(list(df5_draft_in["선수"]))
-                            ], style={"color" : "gray"}
+                            ], style={"color" : "gray", "font-size" : "12px"}
                         )
                     ]
                 )
@@ -83,14 +87,46 @@ def update_dashboard(*team):
 
         card_out_draft = dbc.Card(
             [
-                dbc.CardHeader("[OUT] Draft Tickets", className="lead"),
+                dbc.CardHeader("[OUT] Draft Picks", className="lead"),
                 dbc.CardBody(
                     [
-                        html.H4(f'{df5_draft_out.shape[0]} Tickets', className="display-6"),
+                        html.H4(f'{df5_draft_out.shape[0]} Picks', className="display-6"),
                         html.P(
                             [
                                 ", ".join(list(f"{df5_draft_out.iloc[idx]['선수']} ({df5_draft_out.iloc[idx]['팀']})" for idx in range(df5_draft_out.shape[0])))
-                            ], style={"color" : "gray"}
+                            ], style={"color" : "gray", "font-size" : "12px"}
+                        )
+                    ]
+                )
+            ], className="trade-card"
+        )
+
+        card_in_money = dbc.Card(
+            [
+                dbc.CardHeader("[IN] Cash Trades", className="lead"),
+                dbc.CardBody(
+                    [
+                        html.H4("{:.2f}".format(df6_money_in.sum()*0.1) + ' Billion', className="display-6"),
+                        html.P(
+                            [
+                                ", ".join(list(map(lambda x : str(x) + "억원", df6_money_in.sort_values())))
+                            ], style={"color" : "gray", "font-size" : "12px"}
+                        )
+                    ]
+                )
+            ], className="trade-card"
+        )
+
+        card_out_money = dbc.Card(
+            [
+                dbc.CardHeader("[OUT] Cash Trades", className="lead"),
+                dbc.CardBody(
+                    [
+                        html.H4("{:.2f}".format(df6_money_out.sum()*0.1) + ' Billion', className="display-6"),
+                        html.P(
+                            [
+                                ", ".join(list(map(lambda x : str(x) + "억원", df6_money_out.sort_values())))
+                            ], style={"color" : "gray", "font-size" : "12px"}
                         )
                     ]
                 )
@@ -102,8 +138,8 @@ def update_dashboard(*team):
                 html.H3("2020s In/Out", className="display-6"),
                 html.Small("Here's a look at the types of trades that came in and out for 2020s.", className="lead", style={"color" : "gray"}),
                 html.Div([
-                    html.Div(dcc.Graph(figure=fig), className="box", style={"width" : "55%"}),
-                    html.Div([card_in_draft, card_out_draft, card_in_draft, card_out_draft], id="grid-wrapper2")
-                ], style={"display" : "flex", "justify-content" : "space-between"})
+                    html.Div(dcc.Graph(figure=fig, style={"height" : "100%"}), className="box", style={"width" : "50%"}),
+                    html.Div([card_in_draft, card_out_draft, card_in_money, card_out_money], id="grid-wrapper2")
+                ], style={"display" : "flex", "justify-content" : "space-between", "height" : "400px"})
             ]
         )
