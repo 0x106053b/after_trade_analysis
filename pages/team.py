@@ -20,10 +20,17 @@ section1 = html.Div(
     ]
 )
 
+section2 = html.Div(
+    [
+        html.Div(id="section2")
+    ]
+)
+
 layout = html.Div(
     [
         html.Div(buttons, id="grid-wrapper"),
         section1,
+        section2,
     ]
 )
 
@@ -41,7 +48,7 @@ def button_active_color(*team):
     Output("section1", "children"),
     [Input(f"{x}-button", "n_clicks") for x in team_list]
 )
-def update_dashboard(*team):
+def update_section1(*team):
     triggered_id = callback_context.triggered[0]['prop_id'].split('.')[0]
     if triggered_id.find('-') < 0:
         return html.P('''
@@ -142,6 +149,23 @@ def update_dashboard(*team):
                 html.Div([
                     html.Div(dcc.Graph(figure=fig, style={"height" : "100%"}), className="box", style={"width" : "55%"}),
                     html.Div([card_in_draft, card_out_draft, card_in_money, card_out_money], id="grid-wrapper2")
-                ], style={"display" : "flex", "justify-content" : "space-between"})
+                ], style={"display" : "flex", "justify-content" : "space-between", "margin-bottom" : "80px"})
+            ]
+        )
+
+@callback(
+    Output("section2", "children"),
+    [Input(f"{x}-button", "n_clicks") for x in team_list]
+)
+def update_section2(*team):
+    triggered_id = callback_context.triggered[0]['prop_id'].split('.')[0]
+    if triggered_id.find('-') < 0:
+        return None
+    else:
+        teamName = triggered_id[:triggered_id.find('-')]
+        return html.Div(
+            [
+                html.H3("2020s In/Out", className="display-6"),
+                html.Small("Here's a look at the types of trades that came in and out for 2020s.", className="lead", style={"color" : "gray"}),
             ]
         )

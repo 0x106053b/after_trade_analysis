@@ -1,16 +1,16 @@
 .nav-pills {
-    --bs-nav-pills-link-active-bg: #00ADB5;
+    --bs-nav-pills-link-active-bg: lightslategrey;
 }
 
 .nav-link {
-    color : #00ADB5;
-    font-size : 20px;
+    color : lightslategrey;
+    font-size : 18px;
     transition-duration :0.3s;
 }
 
 .nav-link:hover{
-    color : #028f96;
-    font-size : 22px;
+    color : lightslategrey;
+    font-size : 19px;
 }
 
 .box {

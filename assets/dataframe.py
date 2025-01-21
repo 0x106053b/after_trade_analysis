@@ -3,9 +3,12 @@ import numpy as np
 import json
 
 player_info = pd.read_csv("player_stats/player_basic_info.csv", index_col = 0)
+player_info["statizId"] = player_info["statizId"].astype(str)
 with open("player_moves/trade_list_2020s.json", encoding='UTF8') as f:
     trade_info = json.load(f)
 draft_tickets = pd.read_csv("player_moves/draft_tickets_2020s.csv")
+draft_tickets["statizId"] = draft_tickets["statizId"].fillna(-1).astype(int).replace({-1: None})
+draft_tickets["statizId"] = draft_tickets["statizId"].astype(str)
 
 def df1():
     # df1 : 트레이드 ID, 트레이드 일시, 각 트레이드에 참여한 구단 (teamA, teamB) 데이터프레임
@@ -50,18 +53,17 @@ def df3():
     return df3
 
 def df4(teamName):
-    df4 = []
+    df4_temp = []
     for idx, trade in enumerate(trade_info):
         for a in trade["playerA"]:
             if a["type"] == "player":
-                df4.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["statizId"], a["name"]])
+                df4_temp.append([trade["id"], trade["date"], trade["teamA"], trade["teamB"], a["statizId"], a["type"], a["name"]])
         for b in trade["playerB"]:
             if b["type"] == "player":
-                df4.append([trade["id"], trade["date"], trade["teamB"], trade["teamB"], b["statizId"], b["name"]])
-    df4 = pd.DataFrame(df4, columns=["id", "date", "from", "to", "statizId", "resource"])
+                df4_temp.append([trade["id"], trade["date"], trade["teamB"], trade["teamA"], b["statizId"], b["type"], b["name"]])
+    df4 = pd.DataFrame(df4_temp, columns=["id", "date", "from", "to", "statizId", "trade type", "resource"])
     infielder = ["C", "1B", "2B", "3B", "4B", "SS"]
     outfielder = ["LF", "RF", "CF"]
-    player_info["statizId"] = player_info["statizId"].astype(str)
     df4 = df4.merge(player_info, on="statizId")[["id", "date", "from", "to", "statizId", "이름", "주포지션"]]
     df4.loc[df4["주포지션"].isin(infielder), "주포지션_rough"] = "Infielder"
     df4.loc[df4["주포지션"].isin(outfielder), "주포지션_rough"] = "Outfielder"
