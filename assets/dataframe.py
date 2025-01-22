@@ -95,10 +95,9 @@ def df6(teamName):
     return df6
 
 def df7(teamName):
-    teampName = "키움"
-
     df7_player = []
     df7_draft = []
+
     for idx, trade in enumerate(trade_info):
         for a in trade["playerA"]:
             if a["type"] == "player":
@@ -124,7 +123,8 @@ def df7(teamName):
     df7_temp.loc[df7_temp["from"] == teamName, "InOut"] = "OUT"
     df7_temp.loc[df7_temp["to"] == teamName, "InOut"] = "IN"
     df7_temp = df7_temp.dropna(subset=["InOut"]).reset_index(drop=True)
-
+    df7_before = df7_temp.copy()
+    df7_after = df7_temp.copy()
     batter = ["1B", "2B", "3B", "SS", "LF", "CF", "RF", "C"]
 
     for idx in range(df7_temp.shape[0]):
@@ -135,59 +135,145 @@ def df7(teamName):
         elif position not in batter:
             regular_url = f"player_stats/annual_stats/regular/pitching_stats/{resource}_{statizId}_annualStats.csv"
         annual_df = pd.read_csv(regular_url, index_col=0)
-        change_points = list(np.where(annual_df["Team"] != annual_df["Team"].shift())[0]) + list((annual_df.shape[0],))
+        change_points = list(np.where(annual_df["Team"] != annual_df["Team"].shift())[0])[1:] + list((annual_df.shape[0],))
         trade_year = pd.to_datetime(date).year
         try :
             trade_year_index = np.where(annual_df["Year"] >= trade_year)[0][0]
-            temp = pd.Series(change_points)[np.where(trade_year_index <= change_points)[0]].index[0]
-            before_start = change_points[temp-1]
+            temp = np.where(trade_year_index <= change_points)[0][0]
+            before_start = change_points[temp-1] if temp-1 >= 0 else 0
             before_end = change_points[temp]-1
-            after_start = change_points[temp]-1
-            after_end = change_points[temp+1]
-            before_regular_war_sum = round(annual_df.loc[before_start:before_end, "WAR"].sum(), 3)
-            after_regular_war_sum = round(annual_df.loc[after_start:after_end, "WAR"].sum(), 3)
-            df7_temp.loc[idx, "before_regular_war_sum"] = before_regular_war_sum
-            df7_temp.loc[idx, "after_regular_war_sum"] = after_regular_war_sum
+            after_start = change_points[temp]
+            after_end = change_points[temp+1]-1
+            before_war_sum = round(annual_df.loc[before_start:before_end, "WAR"].sum(), 3)
+            after_war_sum = round(annual_df.loc[after_start:after_end, "WAR"].sum(), 3)
+            df7_before.loc[idx, "war_sum"] = before_war_sum
+            df7_after.loc[idx, "war_sum"] = after_war_sum
         except:
+            if annual_df.shape[0] > 0:
+                before_start = 0
+                before_end = 0
+                after_start = 0
+                after_end = 1
             continue
 
         if position in batter:
-            before_regular_owar_sum = round(annual_df.loc[before_start:before_end, "oWAR"].sum(), 3)
-            after_regular_owar_sum = round(annual_df.loc[after_start:after_end, "oWAR"].sum(), 3)
-            before_regular_dwar_sum = round(annual_df.loc[before_start:before_end, "dWAR"].sum(), 3)
-            after_regular_dwar_sum = round(annual_df.loc[after_start:after_end, "dWAR"].sum(), 3)
-            df7_temp.loc[idx, "before_regular_owar_sum"] = before_regular_owar_sum
-            df7_temp.loc[idx, "after_regular_owar_sum"] = after_regular_owar_sum
-            df7_temp.loc[idx, "before_regular_dwar_sum"] = before_regular_dwar_sum
-            df7_temp.loc[idx, "after_regular_dwar_sum"] = after_regular_dwar_sum
+            before_g = annual_df.loc[before_start:before_end, "G"]
+            after_g = annual_df.loc[after_start:after_end, "G"]
+            if before_g.sum()==0 or after_g.sum() == 0:
+                continue
+            
+            before_owar_sum = round(annual_df.loc[before_start:before_end, "oWAR"].sum(), 3)
+            after_owar_sum = round(annual_df.loc[after_start:after_end, "oWAR"].sum(), 3)
+            
+            before_dwar_sum = round(annual_df.loc[before_start:before_end, "dWAR"].sum(), 3)
+            after_dwar_sum = round(annual_df.loc[after_start:after_end, "dWAR"].sum(), 3)
+            
+            before_wrc_avg = round(annual_df.loc[before_start:before_end, "wRC+"].dot(before_g) / before_g.sum(), 3)
+            after_wrc_avg = round(annual_df.loc[after_start:after_end, "wRC+"].dot(after_g) / after_g.sum(), 3)
+            
+            before_avg_avg = round(annual_df.loc[before_start:before_end, "AVG"].dot(before_g) / before_g.sum(), 3)
+            after_avg_avg = round(annual_df.loc[after_start:after_end, "AVG"].dot(after_g) / after_g.sum(), 3)
+            
+            before_ops_avg = round(annual_df.loc[before_start:before_end, "OPS"].dot(before_g) / before_g.sum(), 3)
+            after_ops_avg = round(annual_df.loc[after_start:after_end, "OPS"].dot(after_g) / after_g.sum(), 3)
+            
+            before_obp_avg = round(annual_df.loc[before_start:before_end, "OBP"].dot(before_g) / before_g.sum(), 3)
+            after_obp_avg = round(annual_df.loc[after_start:after_end, "OBP"].dot(after_g) / after_g.sum(), 3)
+            
+            before_slg_avg = round(annual_df.loc[before_start:before_end, "SLG"].dot(before_g) / before_g.sum(), 3)
+            after_slg_avg = round(annual_df.loc[after_start:after_end, "SLG"].dot(after_g) / after_g.sum(), 3)
+            
+            df7_before.loc[idx, "g_sum"] = before_g.sum()
+            df7_after.loc[idx, "g_sum"] = after_g.sum()
+
+            df7_before.loc[idx, "owar_sum"] = before_owar_sum
+            df7_after.loc[idx, "owar_sum"] = after_owar_sum
+
+            df7_before.loc[idx, "dwar_sum"] = before_dwar_sum
+            df7_after.loc[idx, "dwar_sum"] = after_dwar_sum
+
+            df7_before.loc[idx, "wrc_avg"] = before_wrc_avg
+            df7_after.loc[idx, "wrc_avg"] = after_wrc_avg
+
+            df7_before.loc[idx, "avg_avg"] = before_avg_avg
+            df7_after.loc[idx, "avg_avg"] = after_avg_avg
+
+            df7_before.loc[idx, "ops_avg"] = before_ops_avg
+            df7_after.loc[idx, "ops_avg"] = after_ops_avg
+
+            df7_before.loc[idx, "obp_avg"] = before_obp_avg
+            df7_after.loc[idx, "obp_avg"] = after_obp_avg
+
+            df7_before.loc[idx, "slg_avg"] = before_slg_avg
+            df7_after.loc[idx, "slg_avg"] = after_slg_avg
         
         else:
-            before_regular_g = annual_df.loc[before_start:before_end, "G"]
-            after_regular_g = annual_df.loc[after_start:after_end, "G"]
-            if before_regular_g.sum()==0 or after_regular_g.sum() == 0:
+            before_g = annual_df.loc[before_start:before_end, "G"].sum()
+            after_g = annual_df.loc[after_start:after_end, "G"].sum()
+            if before_g.sum()==0 or after_g.sum() == 0:
                 continue
-            before_regular_win_sum = annual_df.loc[before_start:before_end, "W"].sum()
-            after_regular_win_sum = annual_df.loc[after_start:after_end, "W"].sum()
-            before_regular_lose_sum = annual_df.loc[before_start:before_end, "L"].sum()
-            after_regular_lose_sum = annual_df.loc[after_start:after_end, "L"].sum()
-            before_regular_hold_sum = annual_df.loc[before_start:before_end, "HD"].sum()
-            after_regular_hold_sum = annual_df.loc[after_start:after_end, "HD"].sum()
-            before_regular_save_sum = annual_df.loc[before_start:before_end, "S"].sum()
-            after_regular_save_sum = annual_df.loc[after_start:after_end, "S"].sum()
-            before_regular_era_avg = round(annual_df.loc[before_start:before_end, "ERA"].dot(before_regular_g) / before_regular_g.sum(), 3)
-            after_regular_era_avg = round(annual_df.loc[after_start:after_end, "ERA"].dot(after_regular_g) / after_regular_g.sum(), 3)
-            before_regular_whip_avg = round(annual_df.loc[before_start:before_end, "WHIP"].dot(before_regular_g) / before_regular_g.sum(), 3)
-            after_regular_whip_avg = round(annual_df.loc[after_start:after_end, "WHIP"].dot(after_regular_g) / after_regular_g.sum(), 3)
-            df7_temp.loc[idx, "before_regular_win_sum"] = before_regular_win_sum
-            df7_temp.loc[idx, "after_regular_win_sum"] = after_regular_win_sum
-            df7_temp.loc[idx, "before_regular_lose_sum"] = before_regular_lose_sum
-            df7_temp.loc[idx, "after_regular_lose_sum"] = after_regular_lose_sum
-            df7_temp.loc[idx, "before_regular_hold_sum"] = before_regular_hold_sum
-            df7_temp.loc[idx, "after_regular_hold_sum"] = after_regular_hold_sum
-            df7_temp.loc[idx, "before_regular_save_sum"] = before_regular_save_sum
-            df7_temp.loc[idx, "after_regular_save_sum"] = after_regular_save_sum
-            df7_temp.loc[idx, "before_regular_era_avg"] = before_regular_era_avg
-            df7_temp.loc[idx, "after_regular_era_avg"] = after_regular_era_avg
-            df7_temp.loc[idx, "before_regular_whip_avg"] = before_regular_whip_avg
-            df7_temp.loc[idx, "after_regular_whip_avg"] = after_regular_whip_avg
-    return df7_temp
+
+            before_ip = annual_df.loc[before_start:before_end, "IP"].sum()
+            after_ip = annual_df.loc[after_start:after_end, "IP"].sum()
+            if before_ip.sum()==0 or after_ip.sum() == 0:
+                continue
+
+            before_er = annual_df.loc[before_start:before_end, "ER"].sum()
+            after_er = annual_df.loc[after_start:after_end, "ER"].sum()
+
+            before_h = annual_df.loc[before_start:before_end, "H"].sum()
+            after_h = annual_df.loc[after_start:after_end, "H"].sum()
+
+            before_bb = annual_df.loc[before_start:before_end, "BB"].sum()
+            after_bb = annual_df.loc[after_start:after_end, "BB"].sum()
+
+            before_win_sum = annual_df.loc[before_start:before_end, "W"].sum()
+            after_win_sum = annual_df.loc[after_start:after_end, "W"].sum()
+            
+            before_lose_sum = annual_df.loc[before_start:before_end, "L"].sum()
+            after_lose_sum = annual_df.loc[after_start:after_end, "L"].sum()
+            
+            before_hold_sum = annual_df.loc[before_start:before_end, "HD"].sum()
+            after_hold_sum = annual_df.loc[after_start:after_end, "HD"].sum()
+            
+            before_save_sum = annual_df.loc[before_start:before_end, "S"].sum()
+            after_save_sum = annual_df.loc[after_start:after_end, "S"].sum()
+
+            df7_before.loc[idx, "g_sum"] = before_g
+            df7_after.loc[idx, "g_sum"] = after_g
+            
+            df7_before.loc[idx, "ip_sum"] = before_ip
+            df7_after.loc[idx, "ip_sum"] = after_ip
+
+            df7_before.loc[idx, "er_sum"] = before_er
+            df7_after.loc[idx, "er_sum"] = after_er
+
+            df7_before.loc[idx, "h_sum"] = before_h
+            df7_after.loc[idx, "h_sum"] = after_h
+
+            df7_before.loc[idx, "bb_sum"] = before_bb
+            df7_after.loc[idx, "bb_sum"] = after_bb
+
+            df7_before.loc[idx, "win_sum"] = before_win_sum
+            df7_after.loc[idx, "win_sum"] = after_win_sum
+
+            df7_before.loc[idx, "lose_sum"] = before_lose_sum
+            df7_after.loc[idx, "lose_sum"] = after_lose_sum
+
+            df7_before.loc[idx, "hold_sum"] = before_hold_sum
+            df7_after.loc[idx, "hold_sum"] = after_hold_sum
+
+            df7_before.loc[idx, "save_sum"] = before_save_sum
+            df7_after.loc[idx, "save_sum"] = after_save_sum
+
+    df7_before["AB"] = "Before"
+    df7_after["AB"] = "After"
+    df7_merged = pd.concat([df7_before, df7_after])
+
+    pitcher_drop_cols = ['owar_sum', 'dwar_sum', 'wrc_avg', 'avg_avg', 'ops_avg', 'obp_avg', 'slg_avg']
+    batter_drop_cols = ['ip_sum', 'er_sum', 'h_sum', 'bb_sum', 'win_sum', 'lose_sum','hold_sum', 'save_sum']
+
+    df7_pitcher = df7_merged[df7_merged["주포지션"] == "P"].drop(columns=pitcher_drop_cols).reset_index(drop=True)
+    df7_batter = df7_merged[df7_merged["주포지션"] != "P"].drop(columns=batter_drop_cols).reset_index(drop=True)
+    return (df7_batter, df7_pitcher)
+    
