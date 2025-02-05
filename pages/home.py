@@ -36,7 +36,7 @@ df2 = df2.merge(player_info, on="statizId", how="left")[["date", "name", "statiz
 df3 = df3()
 df3_1 = pd.pivot_table(df3[["from", "to", "id"]], values="id", index="from", columns="to", aggfunc="count")
 df3_1 = df3_1.fillna(0)
-fig3 = px.imshow(df3_1, text_auto=True, aspect="auto", color_continuous_scale=[[0, 'white'], [1, '#636EFA']],
+fig3 = px.imshow(df3_1, text_auto=True, aspect="auto", color_continuous_scale=[[0, 'white'], [1, 'gray']],
     title="Number of Players, Drafts, Cash Trades among Teams")
 fig3.update_layout(margin=dict(l=20, r=20, t=50, b=10),
     title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")
@@ -149,12 +149,15 @@ layout = html.Div(
 def update_annual_trade_counts_byteam(hoverData):
    selected_year = hoverData['points'][0]['customdata']
    df1_1 = df1[df1["date"].map(lambda x : x.year) == selected_year]
+   teams = pd.concat([df1_1["teamA"], df1_1["teamB"]]).reset_index(drop=True)
    capital_team = ["LG", "키움", "두산", "KT", "SSG"]
-   colors = ["수도권팀" if x in capital_team else "비수도권팀" for x in df1_1["teamA"]]
-   fig1_1 = px.histogram(df1_1["teamA"], color=colors, text_auto=True,
+   colors = pd.Series(["수도권팀" if x in capital_team else "비수도권팀" for x in teams])
+   teamcolor = pd.concat([teams, colors], axis=1)
+   teamcolor.columns = ["team", "color"]
+   teamcolor = teamcolor.sort_values(by=["color", "team"])
+   fig1_1 = px.histogram(teamcolor["team"], color=teamcolor["color"], text_auto=True,
                         color_discrete_map={"수도권팀" : "#AB63FA", "비수도권팀" : "#B6E880"}, 
                         labels=dict(value="Team", id="Count"), title="Teamly Frequency of Trades")
-   fig1_1.update_traces(textfont_size=15, textfont_color="white", textangle=0, textposition="inside", cliponaxis=False)
    fig1_1.update_yaxes(dtick=1)
    fig1_1.update_layout(height=240, showlegend=False, margin=dict(l=20, r=20, t=30, b=10),
     title_x = 0.5, title_y = 1.0, title_font_size = 20, title_font_family = "Segoe UI")

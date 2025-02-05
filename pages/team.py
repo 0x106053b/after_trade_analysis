@@ -163,9 +163,32 @@ def update_section2(*team):
         return None
     else:
         teamName = triggered_id[:triggered_id.find('-')]
+        df_batter, df_pitcher = df7(teamName)
+        df_batter["avg_war/144"] = round(df_batter["war_sum"] / df_batter["g_sum"] * 144, 3)
+        df_batter.loc[df_batter["g_sum"] < 10, "avg_war/144"] = 0
+        fig_batter = px.histogram(df_batter, x="InOut", y="avg_war/144", color="AB", barmode='group', height=300,
+            title=f"WAR/144 Change of {teamName} Batters", category_orders={"InOut" : ["IN", "OUT"]},
+            labels={"InOut" : "IN / OUT"}, text_auto=True,
+            color_discrete_map={"In" : "#AB63FA", "Out" : "#B6E880"})
+        fig_batter.update_layout(margin=dict(l=5, r=20, t=40, b=10),
+                                title_x = 0.5, title_y = 0.99, title_font_size = 18, title_font_family = "Segoe UI")
+
+        df_pitcher["avg_war/144"] = round(df_pitcher["war_sum"] / df_pitcher["g_sum"] * 144, 3)
+        df_pitcher.loc[df_pitcher["g_sum"] < 10, "avg_war/144"] = 0
+        fig_pitcher = px.histogram(df_pitcher, x="InOut", y="avg_war/144", color="AB", barmode='group', height=300,
+            title=f"WAR/144 Change of {teamName} Pithcers", category_orders={"InOut" : ["IN", "OUT"]},
+            labels={"InOut" : "IN / OUT"}, text_auto=True,
+            color_discrete_map={"In" : "#AB63FA", "Out" : "#B6E880"})
+        fig_pitcher.update_layout(margin=dict(l=5, r=20, t=40, b=10),
+                                title_x = 0.5, title_y = 0.99, title_font_size = 18, title_font_family = "Segoe UI")
+
         return html.Div(
             [
-                html.H3("2020s In/Out", className="display-6"),
-                html.Small("Here's a look at the types of trades that came in and out for 2020s.", className="lead", style={"color" : "gray"}),
+                html.H3("WAR/144 Before vs After", className="display-6"),
+                html.Small("Here's a look at how much SUM of WAR/144 has changed for In/Out Players.", className="lead", style={"color" : "gray"}),
+                html.Div([
+                    html.Div(dcc.Graph(figure=fig_batter, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                    html.Div(dcc.Graph(figure=fig_pitcher, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                ], style={"display" : "flex", "justify-content" : "space-between", "margin-bottom" : "80px"})
             ]
         )
