@@ -48,7 +48,7 @@ content = html.Div(
 app.layout = html.Div(
     [
         dcc.Location(id="url"), sidebar, content
-    ],
+    ], 
     style={"display" : "flex"}
 )
 
