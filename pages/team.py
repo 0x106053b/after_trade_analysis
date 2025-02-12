@@ -4,9 +4,11 @@ import warnings
 import json
 import dash
 import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output, State, callback, dash_table, callback_context
 import plotly.express as px
 from assets.dataframe import *
+from assets.figure import *
 warnings.simplefilter(action='ignore', category=FutureWarning)
 pd.set_option('mode.chained_assignment',  None)
 
@@ -184,7 +186,7 @@ def update_section2(*team):
         fig_batter = px.histogram(df_batter, x="InOut", y="avg_war/144", color="AB", barmode='group', height=300,
             title=f"WAR/144 Change of {teamName} Batters", category_orders={"InOut" : ["IN", "OUT"]},
             labels={"InOut" : "IN / OUT"}, text_auto=True,
-            color_discrete_map={"In" : "#AB63FA", "Out" : "#B6E880"})
+            color_discrete_map={"Before" : "#00CC96", "After" : "#AB63FA"})
         fig_batter.update_layout(margin=dict(l=5, r=20, t=40, b=10),
                                 title_x = 0.5, title_y = 0.99, title_font_size = 18, title_font_family = "Segoe UI")
 
@@ -193,7 +195,7 @@ def update_section2(*team):
         fig_pitcher = px.histogram(df_pitcher, x="InOut", y="avg_war/144", color="AB", barmode='group', height=300,
             title=f"WAR/144 Change of {teamName} Pithcers", category_orders={"InOut" : ["IN", "OUT"]},
             labels={"InOut" : "IN / OUT"}, text_auto=True,
-            color_discrete_map={"In" : "#AB63FA", "Out" : "#B6E880"})
+            color_discrete_map={"Before" : "#00CC96", "After" : "#AB63FA"})
         fig_pitcher.update_layout(margin=dict(l=5, r=20, t=40, b=10),
                                 title_x = 0.5, title_y = 0.99, title_font_size = 18, title_font_family = "Segoe UI")
 
@@ -289,10 +291,37 @@ def update_section4(n_in, n_out, n_batter, n_pithcer, teams):
     ctx = dash.callback_context
     if ctx is None:
         return None
+    InOut, BatPit = "IN", "Batter"
+    if ctx.triggered_id == "in-button": InOut = "IN"
+    elif ctx.triggered_id == "out-button": InOut = "OUT"
+    elif ctx.triggered_id == "batter-button": BatPit = "Batter"
+    elif ctx.triggered_id == "pitcher-button": BatPit = "Pitcher"
+
+    if BatPit == "Batter":
+        fig1 = team_section4(teamName, InOut, BatPit, "wrc_avg")
+        fig2 = team_section4(teamName, InOut, BatPit, "avg_avg")
+        fig3 = team_section4(teamName, InOut, BatPit, "slg_avg")
+        fig4 = team_section4(teamName, InOut, BatPit, "ops_avg")
+    
     else:
-        InOut, BatPit = "IN", "batter" # default option (IN + Batter)
-        if ctx.triggered_id == "in-button": InOut = "IN"
-        elif ctx.triggered_id == "in-button": InOut = "OUT"
-        elif ctx.triggered_id == "batter-button": BatPit = "batter"
-        elif ctx.triggered_id == "pitcher-button": BatPit = "pitcher"
-    df_batter, df_pitcher = df7(teamName)
+        fig1 = team_section4(teamName, InOut, BatPit, "era_avg")
+        fig2 = team_section4(teamName, InOut, BatPit, "win_avg")
+        fig3 = team_section4(teamName, InOut, BatPit, "hold_avg")
+        fig4 = team_section4(teamName, InOut, BatPit, "save_avg")
+
+    return html.Div(
+            [
+                html.Div(
+                    [
+                        html.Div(dcc.Graph(figure=fig1, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                        html.Div(dcc.Graph(figure=fig2, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                    ], style={"display" : "flex", "justify-content" : "space-between"}
+                ),
+                html.Div(
+                    [
+                        html.Div(dcc.Graph(figure=fig3, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                        html.Div(dcc.Graph(figure=fig4, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
+                    ], style={"display" : "flex", "justify-content" : "space-between"}
+                )
+            ]
+        )

@@ -266,6 +266,18 @@ def df7(teamName):
 
             df7_before.loc[idx, "save_sum"] = before_save_sum
             df7_after.loc[idx, "save_sum"] = after_save_sum
+            
+            df7_before.loc[idx, "era_avg"] = round(before_er / before_ip * 9, 3)
+            df7_after.loc[idx, "era_avg"] = round(after_er / after_ip * 9, 3)
+
+            df7_before.loc[idx, "win_avg"] = round(before_win_sum / before_g, 3)
+            df7_after.loc[idx, "win_avg"] = round(after_win_sum / after_g, 3)
+
+            df7_before.loc[idx, "hold_avg"] = round(before_hold_sum / before_g, 3)
+            df7_after.loc[idx, "hold_avg"] = round(after_hold_sum / after_g, 3)
+
+            df7_before.loc[idx, "save_avg"] = round(before_save_sum / before_g, 3)
+            df7_after.loc[idx, "save_avg"] = round(after_save_sum / after_g, 3)
         
         if before_start is None:
             df7_before.loc[idx, df7_before.columns[9:].values] = None
@@ -275,7 +287,8 @@ def df7(teamName):
     df7_merged = pd.concat([df7_before, df7_after])
 
     pitcher_drop_cols = ['owar_sum', 'dwar_sum', 'wrc_avg', 'avg_avg', 'ops_avg', 'obp_avg', 'slg_avg']
-    batter_drop_cols = ['ip_sum', 'er_sum', 'h_sum', 'bb_sum', 'win_sum', 'lose_sum','hold_sum', 'save_sum']
+    batter_drop_cols = ['ip_sum', 'er_sum', 'h_sum', 'bb_sum', 'win_sum', 'lose_sum','hold_sum', 'save_sum', 'era_avg',
+        'win_avg', 'hold_avg', 'save_avg']
 
     df7_pitcher = df7_merged[df7_merged["주포지션"] == "P"].drop(columns=pitcher_drop_cols).reset_index(drop=True)
     df7_batter = df7_merged[df7_merged["주포지션"] != "P"].drop(columns=batter_drop_cols).reset_index(drop=True)
