@@ -150,11 +150,12 @@ def df7(teamName):
             df7_after.loc[idx, "war_sum"] = after_war_sum
         except:
             if annual_df.shape[0] > 0:
-                before_start = 0
-                before_end = 0
+                before_start = None
+                before_end = None
                 after_start = 0
                 after_end = 1
-            continue
+            else:
+                continue
 
         if position in batter:
             before_g = annual_df.loc[before_start:before_end, "G"]
@@ -265,7 +266,10 @@ def df7(teamName):
 
             df7_before.loc[idx, "save_sum"] = before_save_sum
             df7_after.loc[idx, "save_sum"] = after_save_sum
-
+        
+        if before_start is None:
+            df7_before.loc[idx, df7_before.columns[9:].values] = None
+    
     df7_before["AB"] = "Before"
     df7_after["AB"] = "After"
     df7_merged = pd.concat([df7_before, df7_after])

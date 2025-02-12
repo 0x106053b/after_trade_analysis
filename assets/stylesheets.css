@@ -5,6 +5,34 @@ body{
      display: none;
 }
 
+.option-button {
+    font-size : 18px;
+}
+
+.btn-primary {
+    --bs-btn-hover-bg : lightslategrey;
+    --bs-btn-active-bg : lightslategrey;
+    --bs-btn-border-color : 1px solid rgba(0, 0, 0, 0);
+    --bs-btn-hover-border-color : lightslategrey;
+    --bs-btn-active-border-color : lightslategrey;
+}
+
+.option-button-unclicked{
+    background-color : lightgrey;
+}
+
+.option-button-clicked{
+    background-color : lightslategrey;
+}
+
+.option-button:hover {
+    transition-duration: 0.5s;
+}
+
+.btn-group {
+    box-shadow : 3px 3px 3px lightgrey;
+}
+
 .nav-pills {
     --bs-nav-pills-link-active-bg: lightslategrey;
 }
