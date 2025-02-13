@@ -207,12 +207,12 @@ def update_section2(*team):
                 html.Small("For example, in case of 'IN' group, if ", className="lead", style={"color" : "gray"}),
                 html.Span("purple ", className="lead", style={"color" : "#AB63FA", "fontWeight" : 500}),
                 html.Small("is larger than ", className="lead", style={"color" : "gray"}),
-                html.Span("green", className="lead", style={"color" : "#B6E880", "fontWeight" : 500}),
+                html.Span("green", className="lead", style={"color" : "#00CC96", "fontWeight" : 500}),
                 html.Small(", the team has benefited in terms of WAR/144.", className="lead", style={"color" : "gray"}),
                 html.Div([
                     html.Div(dcc.Graph(figure=fig_batter, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
                     html.Div(dcc.Graph(figure=fig_pitcher, style={"height" : "100%"}), className="box", style={"width" : "49%"}),
-                ], style={"display" : "flex", "justify-content" : "space-between", "margin-bottom" : "40px"})
+                ], style={"display" : "flex", "justify-content" : "space-between", "margin-bottom" : "60px"})
             ]
         )
 
@@ -228,7 +228,7 @@ def update_section3(*team):
         return None
     else:
         return html.Div([
-                html.Small("설명설명설명 옵션을선택해서 각선수의 변화를 확인하세여~", className="lead", style={"color" : "gray"}),
+                html.Small("Click the options button below to compare the detailed performance of traded players before and after the trade.", className="lead", style={"color" : "gray"}),
                 html.Br(),
                 dbc.ButtonGroup(
                 [
