@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
+import bs4
 
 player_info = pd.read_csv("player_stats/player_basic_info.csv", index_col = 0)
 player_info["statizId"] = player_info["statizId"].astype(str)
@@ -294,3 +295,6 @@ def df7(teamName):
     df7_batter = df7_merged[df7_merged["주포지션"] != "P"].drop(columns=batter_drop_cols).reset_index(drop=True)
     return (df7_batter, df7_pitcher)
     
+
+def remove_tags(message):
+    return bs4.BeautifulSoup(message, "lxml").text
