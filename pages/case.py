@@ -47,22 +47,19 @@ section1 = html.Div(
 )
 
 section2 = html.Div(
-    id="case-section2"
+    id="case-section2",
+    style={"margin-bottom" : 80}
 )
 
-# section3 = html.Div(
-#     [
-#         html.Div(id="teamA-resource", className="box", style={"width" : "48%"}),
-#         html.Div(id="teamB-resource", className="box", style={"width" : "48%"})
-#     ],
-#     id="case-section3",
-#     style={"display" : "flex"}
-# )
+section3 = html.Div(
+    id="case-section3"
+)
 
 layout = html.Div(
     [
         section1,
-        section2
+        section2,
+        section3
     ]
 )
 
@@ -152,7 +149,8 @@ def case_dropdown_activation(trade_id):
             )
         return [
             html.H3("Related News Articles", className="display-6"),
-            html.Small("Check out news articles about players' performances after the trade.", className="lead", style={"color" : "gray"}),
+            html.Small("Check out news articles about players' performances after the trade. \
+                When you click on the news title, it goes to the news article page.", className="lead", style={"color" : "gray"}),
             html.Div(news_container, className="box", style={"padding-left" : 20, "padding-right" : 20})
         ]
             
@@ -160,3 +158,53 @@ def case_dropdown_activation(trade_id):
         return html.Div([
             html.Small("Error! Please Try Again.", className="lead", style={"color" : "gray"})
         ])
+
+@callback(
+    Output("case-section3", "children"),
+    Input("case-dropdown", "value")
+)
+def case_dropdown_activation2(trade_id):
+    if trade_id is None:
+        return None
+    
+    temp_df = df2()
+    teamA, teamB = tuple(set(temp_df.loc[temp_df["id"] == trade_id, ["from", "to"]].values.ravel()))
+
+    df_batter, df_pitcher = df7(teamA)
+    df_batter = df_batter[df_batter["id"] == trade_id]
+    df_pitcher = df_pitcher[df_pitcher["id"] == trade_id]
+
+    df_batter_A = df_batter[df_batter["from"] == teamA]
+    df_batter_B = df_batter[df_batter["to"] == teamA]
+    df_pitcher_A = df_pitcher[df_pitcher["from"] == teamA]
+    df_pitcher_B = df_pitcher[df_pitcher["to"] == teamA]
+
+    fig_batter_A = case_section3_batter1(df_batter_A)
+    fig_batter_B = case_section3_batter1(df_batter_B)
+
+    fig_pitcher_A = case_section3_pitcher1(df_pitcher_A)
+    fig_pitcher_B = case_section3_pitcher1(df_pitcher_B)
+
+    return [
+        html.H3("Compare A with B", className="display-6"),
+        html.Small("Compare players' performance before and after the trade. Is this trade a success or a failure?", className="lead", style={"color" : "gray"}),
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.H4(teamB, style={"text-align" : "center", "font-weight" : 300, "font-size" : "30px", "margin-bottom" : 30}),
+                        dcc.Graph(figure=fig_batter_A, style={"margin-bottom" : 50}) if df_batter_A.shape[0] != 0 else html.Div(),
+                        dcc.Graph(figure=fig_pitcher_A,  style={"margin-bottom" : 50}) if df_pitcher_A.shape[0] != 0 else html.Div(),
+                    ], className="box", style={"width" : "49%", "padding-left" : 25, "padding-right" : 25}
+                ),
+                html.Div(
+                    [
+                        html.H4(teamA, style={"text-align" : "center", "font-weight" : 300, "font-size" : "30px", "margin-bottom" : 30}),
+                        dcc.Graph(figure=fig_batter_B, style={"margin-bottom" : 50}) if df_batter_B.shape[0] != 0 else html.Div(),
+                        dcc.Graph(figure=fig_pitcher_B, style={"margin-bottom" : 50}) if df_pitcher_B.shape[0] != 0 else html.Div(),
+                    ], className="box", style={"width" : "49%", "padding-left" : 25, "padding-right" : 25}
+                )
+            ],
+            style = {"display" : "flex"}
+        )
+    ]

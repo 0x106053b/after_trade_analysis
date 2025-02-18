@@ -23,11 +23,11 @@ def df2():
     for trade in trade_info:
         for x in trade["playerA"]:
             if x["type"] == "player":
-                trade_list.append([trade["date"], x["name"], x["statizId"], trade["teamA"], trade["teamB"]])
+                trade_list.append([trade["id"], trade["date"], x["name"], x["statizId"], trade["teamA"], trade["teamB"]])
         for x in trade["playerB"]:
             if x["type"] == "player":
-                trade_list.append([trade["date"], x["name"], x["statizId"], trade["teamB"], trade["teamA"]])
-    df2 = pd.DataFrame(trade_list, columns=["date", "name", "statizId", "from", "to"])
+                trade_list.append([trade["id"], trade["date"], x["name"], x["statizId"], trade["teamB"], trade["teamA"]])
+    df2 = pd.DataFrame(trade_list, columns=["id", "date", "name", "statizId", "from", "to"])
     df2["date"] = pd.to_datetime(df2["date"])
     return df2
 
