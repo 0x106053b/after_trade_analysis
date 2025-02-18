@@ -68,3 +68,63 @@ def team_section4(teamName, InOut, BatPit, stat):
     )
 
     return fig
+
+def case_section3_batter1(df_batter):
+    df_batter_before = df_batter[df_batter["AB"] == "Before"]
+    df_batter_after = df_batter[df_batter["AB"] == "After"]
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x = [list(df_batter_before["resource"].repeat(4)), ["avg", "ops", "ob", "slg"] * df_batter_before.shape[0]],
+        y = df_batter_before[["avg_avg", "ops_avg", "obp_avg", "slg_avg"]].values.ravel(),
+        name = "before",
+        marker={"color" : "#00CC96"}
+    ))
+
+    fig.add_trace(go.Bar(
+        x = [list(df_batter_after["resource"].repeat(4)), ["avg", "ops", "ob", "slg"] * df_batter_after.shape[0]],
+        y = df_batter_after[["avg_avg", "ops_avg", "obp_avg", "slg_avg"]].values.ravel(),
+        name = "after",
+        marker={"color" : "#AB63FA"}
+    ))
+
+    fig.update_layout(
+        title=dict(text=f"Diff of Main Batting Stats"),
+        margin=dict(l=5, r=20, t=40, b=10),
+        title_x = 0.5, title_y = 0.97, title_font_size = 18, title_font_family = "Segoe UI",
+        height=300,
+        legend_itemclick=False
+    )
+    
+    return fig
+
+def case_section3_pitcher1(df_pitcher):
+    df_pitcher_before = df_pitcher[df_pitcher["AB"] == "Before"]
+    df_pitcher_after = df_pitcher[df_pitcher["AB"] == "After"]
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x = [list(df_pitcher_before["resource"].repeat(3)), ["win", "hold", "save"] * df_pitcher_before.shape[0]],
+        y = df_pitcher_before[["win_avg", "hold_avg", "save_avg"]].values.ravel(),
+        name = "before",
+        marker={"color" : "#00CC96"}
+    ))
+
+    fig.add_trace(go.Bar(
+        x = [list(df_pitcher_after["resource"].repeat(3)), ["win", "hold", "save"] * df_pitcher_after.shape[0]],
+        y = df_pitcher_after[["win_avg", "hold_avg", "save_avg"]].values.ravel(),
+        name = "after",
+        marker={"color" : "#AB63FA"}
+    ))
+
+    fig.update_layout(
+        title=dict(text=f"Diff of Main Pitching Achievements"),
+        margin=dict(l=5, r=20, t=40, b=10),
+        title_x = 0.5, title_y = 0.97, title_font_size = 18, title_font_family = "Segoe UI",
+        height=300,
+        legend_itemclick=False
+    )
+
+    return fig

@@ -28,7 +28,6 @@
         "playerB" : [{"type" : "player", "name" : "이승진", "statizId" : "12678"},
                     {"type" : "player", "name" : "권기영", "statizId" : "12921"}]
     },
-
     {
         "id" : 4,
         "date" : "2020-06-07",
