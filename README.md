@@ -12,8 +12,8 @@
 
 # 🧠 실행 화면
 
-<img src="https://github.com/user-attachments/assets/5cfd0514-8adc-4839-8ebf-6ee39fd4ddeb" width="350">
-<img src="https://github.com/user-attachments/assets/7e4cc09f-c043-446e-be05-2410b600cbcc" width="350">
+<img src="https://github.com/user-attachments/assets/5cfd0514-8adc-4839-8ebf-6ee39fd4ddeb" width="360">
+<img src="https://github.com/user-attachments/assets/7e4cc09f-c043-446e-be05-2410b600cbcc" width="360">
 <li>2020년대 KBO 전체 트레이드의 개요를 살펴볼 수 있는 메인 페이지 입니다.</li>
 <li> 각 plot을 클릭하거나 Hover하여 사용자 이벤트에 따른 plot의 변동을 확인할 수 있습니다.
 <br><br>
