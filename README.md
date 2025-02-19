@@ -24,8 +24,8 @@
 > <li>특정 팀간의 자원(선수, 지명권, 현금) 교환 내역 히트맵</li>
 <br><br>
 
-<img src="https://github.com/user-attachments/assets/0012963f-aa9d-4f5c-8a7f-4b5ce17edef4" width="500">
-<img src="https://github.com/user-attachments/assets/42cdd39c-23ac-48ef-a41f-c6efe5cdab75" width="500">
+<img src="https://github.com/user-attachments/assets/0012963f-aa9d-4f5c-8a7f-4b5ce17edef4" width="400">
+<img src="https://github.com/user-attachments/assets/42cdd39c-23ac-48ef-a41f-c6efe5cdab75" width="400">
 <li>확인하고 싶은 팀의 이름을 클릭하여 팀별 2020년대 트레이드 내역을 확인할 수 있는 페이지 입니다.</li>
 <li>연쇄적 Callback 함수를 활용하여 버튼 이벤트에 따라 페이지 레이아웃 및 plot의 데이터가 변하도록 설계하였습니다.</li>
 <br><br>
